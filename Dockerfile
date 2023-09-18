@@ -1,4 +1,9 @@
-FROM eclipse-temurin:11
-WORKDIR .
-COPY ./target/*.jar package.jar
+FROM eclipse-temurin:17
+
+WORKDIR  /app
+
+COPY ./target/*.jar /app/package.jar
+
+EXPOSE 8080
+
 CMD ["java", "-jar", "package.jar"]
