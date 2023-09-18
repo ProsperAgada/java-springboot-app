@@ -1,14 +1,5 @@
-#FROM eclipse-temurin:11-jdk-alpine AS builder
-#RUN mkdir /app
-#WORKDIR /app
-#COPY ./pom.xml /app
-#COPY ./src /app/src
-#RUN mvn clean install package
-#RUN mvn install -Dmaven.test.skip=true
-
-FROM openjdk:8-jre-alpine
-#COPY --from=builder /app/target/*.jar java-maven-app.jar
-WORKDIR .
-COPY ./target/*.jar java-maven-app.jar
+FROM tomcat:latest
+RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps
+COPY ./target/java-maven-app-1.1.0-SNAPSHOT.jar /usr/local/tomcat/webapps/
 EXPOSE 8080
-CMD ["java", "-jar", "java-maven-app.jar" ]
+CMD ["catalina.sh", "run"]
