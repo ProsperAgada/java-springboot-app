@@ -1,0 +1,34 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:alpine3.19
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=javadb
+    networks:
+      - java-net
+    volumes:
+      - pg-volume:/var/lib/postgresql/data
+
+  java-ui:
+    container_name: java-ui
+    image: java-ui:0.1
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - java-net
+
+networks:
+  java-net:
+    name: java-networks
+
+volumes:
+  pg-volume:
+    name: pg-mount
+  
